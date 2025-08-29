@@ -25,7 +25,7 @@ ORDER BY nb_titre desc
 SELECT
     COUNT(*) AS nb_total_titre,
     SUM(CASE WHEN country LIKE '%United States%' THEN 1 ELSE 0 END) AS nb_titre_us,
-    ROUND(CAST(SUM(CASE WHEN country LIKE '%United States%' THEN 1 ELSE 0 END)AS REAL) * 100 / COUNT(*), 0) AS pourcentage
+    ROUND(CAST (SUM(CASE WHEN country LIKE '%United States%' THEN 1 ELSE 0 END) AS REAL) * 100 / COUNT(*), 0) AS pourcentage
 FROM netflix_titles
 WHERE country IS NOT NULL
 
@@ -96,4 +96,5 @@ FROM
 Classement
 WHERE
 premier_titre = 1 OR dernier_titre = 1
+
 
