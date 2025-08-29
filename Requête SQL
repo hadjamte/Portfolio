@@ -1,0 +1,108 @@
+-- 1) Quelle est la répartition des films et des séries et leur proportion par rapport au total ?
+
+SELECT
+    type,
+    COUNT(*) AS nb_titre,
+    ROUND(CAST (COUNT(*) AS REAL) * 100 / (SELECT COUNT(*)from netflix_titles), 0) AS pourcentage
+FROM netflix_titles
+GROUP BY type
+
+-- 2) Quelle est la répartition géographique des titres ? 
+
+Select
+    country,
+    COUNTt(*) AS nb_titre,
+    ROUND(CAST (count(title)  AS REAL) * 100 / (SELECT COUNT(*)from netflix_titles), 0) AS pourcentage
+FROM netflix_titles
+WHERE country IS NOT NULL
+GROUP BY country
+ORDER BY nb_titre desc
+
+--La part des titres dont la production est des Etats-Unis.
+
+
+SELECT
+    COUNT(*) AS nb_total_titre,
+    SUM(CASE WHEN country LIKE '%United States%' THEN 1 ELSE 0 END) AS nb_titre_us,
+    ROUND(CAST(SUM(CASE WHEN country LIKE '%United States%' THEN 1 ELSE 0 END)AS REAL) * 100 / COUNT(*), 0) AS pourcentage
+FROM netflix_titles
+WHERE country IS NOT NULL
+
+
+
+-- 4) Montrer l'évolution des films provenant des Etats-Unis sur les 10 dernières années d’ajout.
+
+
+SELECT
+    SUBSTR(date_added, -4) AS annee_ajout,
+    COUNT(*) AS nb_total_films,
+    SUM(CASE WHEN country LIKE '%United States%' THEN 1 ELSE 0 END) AS nb_films_us,
+    ROUND(CAST (SUM(CASE WHEN country LIKE '%United States%' THEN 1 ELSE 0 END) AS REAL) * 100 /count(*), 0) AS pourcentage
+FROM netflix_titles
+WHERE type = 'Movie' AND date_added IS NOT NULL
+GROUP BY annee_ajout
+ORDER BY annee_ajout DESC
+LIMIT 10
+
+
+-- 5) Lister les 5 réalisateurs ayant le plus de titres.
+
+SELECT
+    director,
+    COUNT(*) AS nb_titre
+FROM netflix_titles
+WHERE  director IS  NOT NULL
+GROUP BY director
+ORDER BY nb_titre desc
+LIMIT 5
+
+
+
+-- 6) Classer pour chaque type les 5 genres ayant le plus de titres.
+
+WITH classement as (
+SELECT
+    type,
+    listed_in,
+    count(*) AS nb_titre,
+    row_number () over ( partition by type order by count(title) desc) AS rang
+FROM netflix_titles
+GROUP BY type, listed_in)
+
+SELECT
+    type,
+    listed_in
+FROM classement
+WHERE rang <= 5
+
+Pour chaque réalisateur, trouver le premier et le dernier titre ajouté.
+
+WITH Classement AS (
+SELECT
+    director,
+    title,
+    date_added,
+    ROW_NUMBER() OVER (PARTITION BY director ORDER BY date_added ASC) AS premier_titre,
+    ROW_NUMBER() OVER (PARTITION BY director ORDER BY date_added DESC) AS dernier_titre
+FROM
+netflix_titles
+WHERE
+director IS NOT NULL AND date_added IS NOT NULL)
+
+SELECT
+    director,
+    title,
+    date_added
+FROM
+Classement
+WHERE
+premier_titre = 1 OR dernier_titre = 1
+
+
+
+
+
+
+
+
+
