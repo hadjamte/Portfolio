@@ -12,8 +12,8 @@ GROUP BY type
 
 Select
     country,
-    COUNTt(*) AS nb_titre,
-    ROUND(CAST (count(title)  AS REAL) * 100 / (SELECT COUNT(*)from netflix_titles), 0) AS pourcentage
+    COUNT(*) AS nb_titre,
+    ROUND(CAST (COUNT(*)  AS REAL) * 100 / (SELECT COUNT(*)from netflix_titles), 0) AS pourcentage
 FROM netflix_titles
 WHERE country IS NOT NULL
 GROUP BY country
@@ -36,7 +36,7 @@ SELECT
     SUBSTR(date_added, -4) AS annee_ajout,
     COUNT(*) AS nb_total_films,
     SUM(CASE WHEN country LIKE '%United States%' THEN 1 ELSE 0 END) AS nb_films_us,
-    ROUND(CAST (SUM(CASE WHEN country LIKE '%United States%' THEN 1 ELSE 0 END) AS REAL) * 100 /count(*), 0) AS pourcentage
+    ROUND(CAST (SUM(CASE WHEN country LIKE '%United States%' THEN 1 ELSE 0 END) AS REAL) * 100 /cCOUNT(*), 0) AS pourcentage
 FROM netflix_titles
 WHERE type = 'Movie' AND date_added IS NOT NULL
 GROUP BY annee_ajout
@@ -62,8 +62,8 @@ WITH classement as (
 SELECT
     type,
     listed_in,
-    count(*) AS nb_titre,
-    row_number () over ( partition by type order by count(title) desc) AS rang
+    COUNT(*) AS nb_titre,
+    row_number () over ( partition by type order by COUNT(*) desc) AS rang
 FROM netflix_titles
 GROUP BY type, listed_in)
 
@@ -96,6 +96,7 @@ FROM
 Classement
 WHERE
 premier_titre = 1 OR dernier_titre = 1
+
 
 
 
