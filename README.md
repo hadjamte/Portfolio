@@ -4,8 +4,11 @@ Ce projet a pour but d'explorer et d'analyser une base de donnée Netflix afin d
 Les requêtes utilisées ont pour but de démonter mes compétences SQL d'un niveau débutant à intermédiaire, mettant l'accent sur les concepts de base et certains d'un niveau un peu plus avancé tels que :
 
 Les fonctions d'agrégation
+
 Les filtrages et regroupements
+
 Les Common Table Expresions
+
 Les fonctions de fenêtrage
 
 # Base de données
