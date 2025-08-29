@@ -7,6 +7,7 @@ SELECT
 FROM netflix_titles
 GROUP BY type
 
+
 -- 2) Quelle est la répartition géographique des titres ? 
 
 Select
@@ -18,8 +19,8 @@ WHERE country IS NOT NULL
 GROUP BY country
 ORDER BY nb_titre desc
 
---La part des titres dont la production est des Etats-Unis.
 
+--La part des titres dont la production est des Etats-Unis.
 
 SELECT
     COUNT(*) AS nb_total_titre,
@@ -29,9 +30,7 @@ FROM netflix_titles
 WHERE country IS NOT NULL
 
 
-
 -- 3) Montrer l'évolution des films provenant des Etats-Unis sur les 10 dernières années d’ajout.
-
 
 SELECT
     SUBSTR(date_added, -4) AS annee_ajout,
@@ -57,7 +56,6 @@ ORDER BY nb_titre desc
 LIMIT 5
 
 
-
 -- 5) Classer pour chaque type les 5 genres ayant le plus de titres.
 
 WITH classement as (
@@ -74,6 +72,7 @@ SELECT
     listed_in
 FROM classement
 WHERE rang <= 5
+
 
 -- 6) Pour chaque réalisateur, trouver le premier et le dernier titre ajouté.
 
@@ -97,6 +96,7 @@ FROM
 Classement
 WHERE
 premier_titre = 1 OR dernier_titre = 1
+
 
 
 
