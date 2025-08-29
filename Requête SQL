@@ -3,7 +3,7 @@
 SELECT
     type,
     COUNT(*) AS nb_titre,
-    ROUND(CAST (COUNT(*) AS REAL) * 100 / (SELECT COUNT(*)from netflix_titles), 0) AS pourcentage
+    ROUND(CAST (COUNT(*) AS REAL) * 100 / (SELECT COUNT(*) from netflix_titles), 0) AS pourcentage
 FROM netflix_titles
 GROUP BY type
 
@@ -13,7 +13,7 @@ GROUP BY type
 Select
     country,
     COUNT(*) AS nb_titre,
-    ROUND(CAST (COUNT(*)  AS REAL) * 100 / (SELECT COUNT(*)from netflix_titles), 0) AS pourcentage
+    ROUND(CAST (COUNT(*)  AS REAL) * 100 / (SELECT COUNT(*) from netflix_titles), 0) AS pourcentage
 FROM netflix_titles
 WHERE country IS NOT NULL
 GROUP BY country
@@ -96,15 +96,4 @@ FROM
 Classement
 WHERE
 premier_titre = 1 OR dernier_titre = 1
-
-
-
-
-
-
-
-
-
-
-
 
